@@ -1,24 +1,26 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
-    userName : {
+const productSchema = mongoose.Schema({
+    sku : {
+        type : String,
+        required : true,
+        unique : true
+    },
+    productTitle : {
         type : String,
         required : true
     },
-    profileImage : {
+    color : {
         type : String
     },
-    email : {
-        type : String,
-        required : true,
-        unique : true
+    productImage : {
+        type : String
     },
-    number : {
+    productPrice : {
         type : Number,
-        required : true,
-        unique : true
+        required : true
     },
-    password : {
+    disc : {
         type : String,
         required : true
     },
@@ -31,4 +33,4 @@ const userSchema = mongoose.Schema({
     timestamps : true
 });
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('products', productSchema);
