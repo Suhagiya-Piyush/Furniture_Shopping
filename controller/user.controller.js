@@ -11,7 +11,7 @@ const { token } = require('morgan');
 exports.registerNewUser = async (req, res) => {
     try {
         let imagePath = '';
-        // console.log("body=====>",req.body);
+        console.log("body=====>",req.body);
         let user = await UserService.findUser({ email : req.body.email, isDelete : false});
         if(user){
             return res.json({ message : 'User Already Register...'});

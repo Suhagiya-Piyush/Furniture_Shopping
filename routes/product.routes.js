@@ -1,8 +1,16 @@
-const express = require('express');
+const express = require("express");
 const productRoutes = express.Router();
-const { addNewProduct, getAllProduct } = require('../controller/product.controller');
+const {
+  addNewProduct,
+  getAllProduct,
+  updateProduct,
+  deleteProduct
+} = require("../controller/product.controller");
+const { upload } = require('../helpers/productimageUpload');
 
-productRoutes.post('/addProduct', addNewProduct)
-productRoutes.get('/', getAllProduct)
+productRoutes.post("/addProduct", upload.single("productImage"), addNewProduct);
+productRoutes.get("/", getAllProduct);
+productRoutes.put("/updateProduct", updateProduct);
+productRoutes.put("/deleteProduct", deleteProduct);
 
 module.exports = productRoutes;
