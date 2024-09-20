@@ -10,7 +10,8 @@ const cartSchema = mongoose.Schema({
         ref : 'products'
     },
     quantity : {
-        type : Number
+        type : Number,
+        default : 1
     },
     isDelete:{
         type : Boolean,

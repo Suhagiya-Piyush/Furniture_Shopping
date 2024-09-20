@@ -20,3 +20,38 @@ exports.addToCart = async (req, res) => {
         res.status(500).json({ message: "Internal Server error..." });
     }
 };
+exports.getCarts = async (req, res) => {
+    try {
+        const cart = await CartService.findAllCart({userId : req.user._id, isDelete : false});
+        if(cart.length < 1) return res.json({message : 'Cart is Empty...'});
+        res.status(200).json({ message : "Cart Products...", cart });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Server error..." });
+    }
+};
+
+exports.updateCarts = async (req, res) => {
+    try {
+        // console.log(req.user._id);
+        // console.log(req.body.productId);
+        let cart = await CartService.findCart({ userId : req.user._id, productId : req.body.productId, isDelete : false });
+        // console.log(cart);
+        cart = await CartService.updateCart(cart._id, {quantity : req.body.quantity});
+        res.status(202).json({ message : 'Cart Update Successfully...', cart });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Server error..." });
+    }
+};
+
+exports.deleteCart = async (req, res) => {
+    try {
+        let cart = await CartService.findCart({ userId : req.user._id, productId : req.body.productId, isDelete : false });
+        cart = await CartService.updateCart(cart._id, {isDelete : true});
+        res.status(202).json({ message : 'Product Delete to Cart Success...', cart});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Server error..." });
+    }
+};

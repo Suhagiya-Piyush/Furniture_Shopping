@@ -11,6 +11,7 @@ exports.addFavorites = async (req, res) => {
       productId: req.query.productId,
       isDelete: false
     });
+    
     if (favorite) {
       return await res.json({ message: "Already Added in Favorite..." });
     }
