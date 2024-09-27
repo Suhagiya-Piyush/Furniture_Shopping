@@ -22,12 +22,14 @@ const productRoutes = require('./routes/product.routes');
 const favoriteRoutes = require('./routes/favorites.routes');
 const cartRoutes = require('./routes/cart.routes');
 const orderRoutes = require('./routes/order.routes');
+const forgetRoutes = require("./routes/forget.routes");
 
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/favorite', favoriteRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/order', orderRoutes);
+app.use('/api/forget', forgetRoutes);
 
 app.listen(port, async (req, res) => {
   await mongoose

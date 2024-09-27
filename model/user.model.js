@@ -13,6 +13,9 @@ const userSchema = mongoose.Schema({
         required : true,
         unique : true
     },
+    otpCode : {
+        type : Number
+    },
     number : {
         type : Number,
         required : true,

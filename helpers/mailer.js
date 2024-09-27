@@ -1,24 +1,34 @@
 const nodemailer = require('nodemailer');
 
-exports.sendMail = async (message) =>{
-    const transporter = nodemailer.createTransport({
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.MAIL_USER,
-          pass: process.env.MAIL_PASSWORD,
-        },
-      });
+// Environment variable usage for better security
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  port: 465,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER || 'piyush.suhagiya.ps@gmail.com', // Use env variable
+    pass: process.env.MAIL_PASSWORD || 'cnyrguhbwtkouhau', // Use env variable
+  },
+});
 
-      let info = await transporter.sendMail(message);
-      console.log("Mail Sent Success.... ", info.response);
-}
+// Exporting sendMail function
+exports.sendMail = async (body) => {
+  try {
+    if (!body.mailto || !body.OTP) {
+      throw new Error("Missing 'mailto' or 'OTP' in request body");
+    }
+    // Send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: process.env.MAIL_USER, // sender address
+      to: body.mailto, // list of receivers
+      subject: "Forget Password OTP", // Subject line
+      text: `Your OTP is: ${body.OTP}`, // plain text body
+    });
 
-
-
-/*
-
-    1.Write an API for Send OTP => body email enter => OTP generate & Send Mail with OTP also OTP Store in User model & generate Token
-
-    2.Write an API for verify OTP => Authorization => body OTP and user OTP mathched => 
-*/
+    console.log("Message sent: %s", info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error("Error occurred while sending mail:", error);
+    return { success: false, error: error.message };
+  }
+};
